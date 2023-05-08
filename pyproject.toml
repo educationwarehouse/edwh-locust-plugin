@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "edwh-demo-plugin"
+name = "edwh-locust-plugin"
 dynamic = ["version"]
-description = 'Demo project with a plugin to be discovered from the edwh package'
+description = 'locust project with a plugin to be discovered from the edwh package'
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
@@ -33,20 +33,20 @@ dev = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/educationwarehouse/edwh-demo-plugin#readme"
-Issues = "https://github.com/educationwarehouse/edwh-demo-plugin/issues"
-Source = "https://github.com/educationwarehouse/edwh-demo-plugin"
+Documentation = "https://github.com/educationwarehouse/edwh-locust-plugin#readme"
+Issues = "https://github.com/educationwarehouse/edwh-locust-plugin/issues"
+Source = "https://github.com/educationwarehouse/edwh-locust-plugin"
 
 # https://packaging.python.org/en/latest/guides/creating-and-discovering-plugins/#using-package-metadata
 [project.entry-points."edwh.tasks"]
-demo = "edwh_demo_plugin.demo_plugin"
+locust = "edwh_locust_plugin.locust_plugin"
 
 [tool.hatch.version]
-path = "src/edwh_demo_plugin/__about__.py"
+path = "src/edwh_locust_plugin/__about__.py"
 
 [tool.semantic_release]
 branch = "master"
-version_variable = "src/edwh_demo_plugin/__about__.py:__version__"
+version_variable = "src/edwh_locust_plugin/__about__.py:__version__"
 change_log = "CHANGELOG.md"
 upload_to_repository = false
 upload_to_release = false
@@ -84,7 +84,7 @@ dependencies = [
   "ruff>=0.0.243",
 ]
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/edwh_demo_plugin tests}"
+typing = "mypy --install-types --non-interactive {args:src/edwh_locust_plugin tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",
@@ -150,7 +150,7 @@ unfixable = [
 ]
 
 [tool.ruff.isort]
-known-first-party = ["edwh_demo_plugin"]
+known-first-party = ["edwh_locust_plugin"]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
@@ -160,16 +160,16 @@ ban-relative-imports = "all"
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
 [tool.coverage.run]
-source_pkgs = ["edwh_demo_plugin", "tests"]
+source_pkgs = ["edwh_locust_plugin", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/edwh_demo_plugin/__about__.py",
+  "src/edwh_locust_plugin/__about__.py",
 ]
 
 [tool.coverage.paths]
-edwh_demo_plugin = ["src/edwh_demo_plugin", "*/edwh-demo-plugin/src/edwh_demo_plugin"]
-tests = ["tests", "*/edwh-demo-plugin/tests"]
+edwh_locust_plugin = ["src/edwh_locust_plugin", "*/edwh-locust-plugin/src/edwh_locust_plugin"]
+tests = ["tests", "*/edwh-locust-plugin/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
