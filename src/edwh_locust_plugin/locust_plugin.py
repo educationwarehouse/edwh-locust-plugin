@@ -15,9 +15,7 @@ def output(c, bestand):
         lines = [json.loads(_) for _ in file.read().replace("}{", "}\n{").split("\n")]
 
     with open(bestand, "w", newline="") as csvfile:
-        csv_writer = csv.DictWriter(
-            csvfile, dialect="excel", fieldnames=lines[0].keys()
-        )
+        csv_writer = csv.DictWriter(csvfile, dialect="excel", fieldnames=lines[0].keys())
         csv_writer.writeheader()
         for line in lines:
             csv_writer.writerow(line)
@@ -52,12 +50,8 @@ def median_of_output(c):
 
         results["which one"] = csv_file.replace(f"{locust_output_path}/", "")
         results["median of median response time 50"] = median(sorted(list_50))
-        results["average of median response time 50"] = sum(list_50) / len(
-            list_50
-        )
+        results["average of median response time 50"] = sum(list_50) / len(list_50)
         results["median of median response time 95"] = median(sorted(list_95))
-        results["average of median response time 95"] = sum(list_95) / len(
-            list_95
-        )
+        results["average of median response time 95"] = sum(list_95) / len(list_95)
         results["average rps"] = sum(list_rps) / len(list_rps)
         print(results)
