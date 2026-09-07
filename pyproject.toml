@@ -1,10 +1,9 @@
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [project]
 name = "edwh-locust-plugin"
-dynamic = ["version"]
 description = 'locust project with a plugin to be discovered from the edwh package'
 readme = "README.md"
 requires-python = ">=3.10"
@@ -24,11 +23,10 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = ['invoke']
+version = "0.1.2"
 
 [project.optional-dependencies]
 dev = [
-    "hatch",
-    # "python-semantic-release",
     "black",
 ]
 
@@ -41,63 +39,54 @@ Source = "https://github.com/educationwarehouse/edwh-locust-plugin"
 [project.entry-points."edwh.tasks"]
 locust = "edwh_locust_plugin.locust_plugin"
 
-[tool.hatch.version]
-path = "src/edwh_locust_plugin/__about__.py"
+[tool.vommit]
+allow_breaking_bang = true
+allow_breaking_footer = true
+prerelease_token = "beta"
+confirm = true
+ignore = []
 
-[tool.semantic_release]
+[tool.vommit.git]
+enabled = true
+origin = "origin"
 branch = "master"
-version_variable = "src/edwh_locust_plugin/__about__.py:__version__"
-change_log = "CHANGELOG.md"
-upload_to_repository = false
-upload_to_release = false
-build_command = "hatch build"
+on_wrong_branch = "error"
+tag_format = "v{version}"
+commit_format = "{version}"
 
-parser_angular_minor_types = "feat,minor"
-parser_angular_patch_types = "fix,perf,refactor,build,chore,patch"
+[tool.vommit.changelog]
+enabled = true
+file = "CHANGELOG.md"
+include_prereleases = false
+placeholder = "<!--next-version-placeholder-->"
+placeholder_regex = "<auto>"
+entry_title_format = "## v{version} ({date:%Y-%m-%d})"
 
+[tool.vommit.changelog.levels]
+feat = "Feature{s}"
+fix = "Fix{es}"
+break = "Breaking Change{s}"
+docs = "Documentation"
+perf = "Performance"
 
-[tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest",
-]
-[tool.hatch.envs.default.scripts]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
-cov-report = [
-  "- coverage combine",
-  "coverage report",
-]
-cov = [
-  "test-cov",
-  "cov-report",
-]
+[tool.vommit.pypi]
+enabled = true
+use_keyring = true
 
-[[tool.hatch.envs.all.matrix]]
-python = ["3.10", "3.11", "3.12"]
+[tool.vommit.commands]
+clean = "rm -rf ./dist"
+build = "uv build"
+publish = "uv publish"
+post_publish = ""
 
-[tool.hatch.envs.lint]
-detached = true
-dependencies = [
-  "black>=23.1.0",
-  "mypy>=1.0.0",
-  "ruff>=0.0.243",
-]
-[tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/edwh_locust_plugin tests}"
-style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
-]
-fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
-  "style",
-]
-all = [
-  "style",
-  "typing",
-]
+[tool.vommit.version_bump_map]
+break = "major"
+build = "patch"
+chore = "patch"
+feat = "minor"
+fix = "patch"
+perf = "patch"
+refactor = "patch"
 
 [tool.black]
 target-version = ["py37"]
